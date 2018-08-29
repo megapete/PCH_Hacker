@@ -10,6 +10,8 @@
 		D3972F422136F61400C879DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3972F412136F61400C879DD /* AppDelegate.swift */; };
 		D3972F442136F61700C879DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3972F432136F61700C879DD /* Assets.xcassets */; };
 		D3972F472136F61700C879DD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3972F452136F61700C879DD /* MainMenu.xib */; };
+		D3972F552136F9EC00C879DD /* BasicStructs.c in Sources */ = {isa = PBXBuildFile; fileRef = D3972F532136F9EC00C879DD /* BasicStructs.c */; };
+		D3972F582137146A00C879DD /* PCH_List.c in Sources */ = {isa = PBXBuildFile; fileRef = D3972F562137146A00C879DD /* PCH_List.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,11 @@
 		D3972F462136F61700C879DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D3972F482136F61700C879DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3972F492136F61700C879DD /* PCH_Hacker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PCH_Hacker.entitlements; sourceTree = "<group>"; };
+		D3972F4F2136F67300C879DD /* PCH_Hacker-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PCH_Hacker-Bridging-Header.h"; sourceTree = "<group>"; };
+		D3972F532136F9EC00C879DD /* BasicStructs.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = BasicStructs.c; sourceTree = "<group>"; };
+		D3972F542136F9EC00C879DD /* BasicStructs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BasicStructs.h; sourceTree = "<group>"; };
+		D3972F562137146A00C879DD /* PCH_List.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = PCH_List.c; sourceTree = "<group>"; };
+		D3972F572137146A00C879DD /* PCH_List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCH_List.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,10 +59,15 @@
 			isa = PBXGroup;
 			children = (
 				D3972F412136F61400C879DD /* AppDelegate.swift */,
+				D3972F532136F9EC00C879DD /* BasicStructs.c */,
+				D3972F542136F9EC00C879DD /* BasicStructs.h */,
+				D3972F562137146A00C879DD /* PCH_List.c */,
+				D3972F572137146A00C879DD /* PCH_List.h */,
 				D3972F432136F61700C879DD /* Assets.xcassets */,
 				D3972F452136F61700C879DD /* MainMenu.xib */,
 				D3972F482136F61700C879DD /* Info.plist */,
 				D3972F492136F61700C879DD /* PCH_Hacker.entitlements */,
+				D3972F4F2136F67300C879DD /* PCH_Hacker-Bridging-Header.h */,
 			);
 			path = PCH_Hacker;
 			sourceTree = "<group>";
@@ -92,6 +104,7 @@
 				TargetAttributes = {
 					D3972F3D2136F61400C879DD = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 0940;
 					};
 				};
 			};
@@ -131,6 +144,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3972F422136F61400C879DD /* AppDelegate.swift in Sources */,
+				D3972F582137146A00C879DD /* PCH_List.c in Sources */,
+				D3972F552136F9EC00C879DD /* BasicStructs.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +280,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = PCH_Hacker/PCH_Hacker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -275,6 +291,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.huberis-tech.PCH-Hacker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PCH_Hacker/PCH_Hacker-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -283,6 +301,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = PCH_Hacker/PCH_Hacker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -293,6 +312,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.huberis-tech.PCH-Hacker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PCH_Hacker/PCH_Hacker-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
