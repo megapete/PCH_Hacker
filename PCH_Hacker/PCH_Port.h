@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "PCH_List.h"
+#include "PCH_Directory.h"
 
 #define MAX_PORT_NAME_LENGTH 32
 #define MAX_PORT_PASSWORD_LENGTH 128
@@ -24,7 +25,7 @@ typedef struct _port {
     char password[MAX_PORT_PASSWORD_LENGTH];
     PCH_portStatus status;
     
-    // TODO: Add file system pointer for the port
+    PCH_Directory root;
     
 } PCH_port;
 
