@@ -23,7 +23,7 @@ typedef struct _directory {
     
     char name[MAX_FILE_NAME_LENGTH];
     
-    // TODO: Add file list
+    PCH_FileList files;
     
 } PCH_Directory;
 

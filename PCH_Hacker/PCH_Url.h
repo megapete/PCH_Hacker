@@ -19,6 +19,7 @@ typedef struct _url {
     
     int address[4]; // standard ipV4 adress fields
     char httpName[MAX_HTTP_NAME_LENGTH];
+    
     char name[MAX_URL_NAME_LENGTH];
     
     PCH_PortList ports;
