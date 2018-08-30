@@ -57,41 +57,45 @@ PCH_List CreateListWithDataArray(void *dataArray, uint numDataElements, size_t d
 }
 
 /// Replace the contents of theList with the contents of dataArray
-void SetListWithArray(PCH_List theList, uint numDataElements, void *dataArray)
+void SetListWithArray(PCH_List *theListPtr, uint numDataElements, void *dataArray)
 {
-    if (theList.numNodes > 0)
+    // PCH_List theList = *theListPtr;
+    
+    if (theListPtr->numNodes > 0)
     {
-        RemoveAll(theList);
+        RemoveAll(theListPtr);
     }
     
     void *currentDataPtr = dataArray;
     for (int i=0; i<numDataElements; i++)
     {
-        void *newNodeData = malloc(theList.datasize);
-        memcpy(newNodeData, currentDataPtr, theList.datasize);
-        currentDataPtr += theList.datasize;
+        void *newNodeData = malloc(theListPtr->datasize);
+        memcpy(newNodeData, currentDataPtr, theListPtr->datasize);
+        currentDataPtr += theListPtr->datasize;
         
         node newNode = malloc(sizeof(struct _listNode));
         newNode->data = newNodeData;
-        newNode->prev = theList.currentTail;
+        newNode->prev = theListPtr->currentTail;
         newNode->next = NULL;
         
-        theList.currentTail = newNode;
+        theListPtr->currentTail = newNode;
         
-        if (theList.currentHead == NULL)
+        if (theListPtr->currentHead == NULL)
         {
-            theList.currentHead = newNode;
+            theListPtr->currentHead = newNode;
         }
     }
 }
 
 // Add new data to the head of the list.
-void PushNewHead(PCH_List theList, void *newHeadData)
+void PushNewHead(PCH_List *theListPtr, void *newHeadData)
 {
-    node oldHead = theList.currentHead;
+    // PCH_List theList = *theListPtr;
     
-    void *newNodeData = malloc(theList.datasize);
-    memcpy(newNodeData, newHeadData, theList.datasize);
+    node oldHead = theListPtr->currentHead;
+    
+    void *newNodeData = malloc(theListPtr->datasize);
+    memcpy(newNodeData, newHeadData, theListPtr->datasize);
     
     node newNode = malloc(sizeof(struct _listNode));
     newNode->data = newNodeData;
@@ -99,34 +103,42 @@ void PushNewHead(PCH_List theList, void *newHeadData)
     newNode->next = oldHead;
     oldHead->prev = newNode;
     
-    theList.currentHead = newNode;
+    theListPtr->currentHead = newNode;
     
-    theList.numNodes += 1;
+    theListPtr->numNodes += 1;
 }
 
 // Add new data to the tail of the list.
-void AppendNewData(PCH_List theList, void *newTailData)
+void AppendNewData(PCH_List *theListPtr, void *newTailData)
 {
-    node oldTail = theList.currentTail;
+    // PCH_List theList = *theListPtr;
     
-    void *newNodeData = malloc(theList.datasize);
-    memcpy(newNodeData, newTailData, theList.datasize);
+    node oldTail = theListPtr->currentTail;
+    
+    void *newNodeData = malloc(theListPtr->datasize);
+    memcpy(newNodeData, newTailData, theListPtr->datasize);
     
     node newNode = malloc(sizeof(struct _listNode));
     newNode->data = newNodeData;
     newNode->prev = oldTail;
     newNode->next = NULL;
-    oldTail->next = newNode;
     
-    theList.currentTail = newNode;
+    if (oldTail != NULL)
+    {
+        oldTail->next = newNode;
+    }
     
-    theList.numNodes += 1;
+    theListPtr->currentTail = newNode;
+    
+    theListPtr->numNodes += 1;
 }
 
-// Append listToAppend to the end of destList. It is up to the calling routine to make sure that destList is not equal to listToAppend. If the two lists are of different datasizes, nothing is done and the routine returns.
-void AppendNewList(PCH_List destList, PCH_List listToAppend)
+// Append listToAppend to the end of theListPtr-> It is up to the calling routine to make sure that destList is not equal to listToAppend. If the two lists are of different datasizes, nothing is done and the routine returns.
+void AppendNewList(PCH_List *theListPtr, PCH_List listToAppend)
 {
-    if (destList.datasize != listToAppend.datasize)
+    // PCH_List destList = *theListPtr;
+    
+    if (theListPtr->datasize != listToAppend.datasize)
     {
         ALog("Incompatible data sizes!");
         return;
@@ -138,23 +150,25 @@ void AppendNewList(PCH_List destList, PCH_List listToAppend)
         return;
     }
     
-    listToAppend.currentHead->prev = destList.currentTail;
-    destList.currentTail->next = listToAppend.currentHead;
-    destList.currentTail = listToAppend.currentTail;
+    listToAppend.currentHead->prev = theListPtr->currentTail;
+    theListPtr->currentTail->next = listToAppend.currentHead;
+    theListPtr->currentTail = listToAppend.currentTail;
     
-    destList.numNodes += listToAppend.numNodes;
+    theListPtr->numNodes += listToAppend.numNodes;
 }
 
 // Set the data at the index indicated. Whatever was there will be deleted. If index is greater than the size of the list, nothing is set.
-void SetDataAt(PCH_List theList, void *newData, uint index)
+void SetDataAt(PCH_List *theListPtr, void *newData, uint index)
 {
-    if (index >= theList.numNodes)
+    // PCH_List theList = *theListPtr;
+    
+    if (index >= theListPtr->numNodes)
     {
         DLog("Index is beyond end of list - aborting");
         return;
     }
     
-    node theNode = theList.currentHead;
+    node theNode = theListPtr->currentHead;
     int nodeIndex = 0;
     
     while (theNode != NULL && nodeIndex < index)
@@ -167,30 +181,32 @@ void SetDataAt(PCH_List theList, void *newData, uint index)
         ALog("Something really weird happened!");
     }
     
-    memcpy(theNode->data, newData, theList.datasize);
+    memcpy(theNode->data, newData, theListPtr->datasize);
     
 }
 
 // Insert new data at the index indicated (this routine can be slow in a large list with a high index)
-void InsertNewDataAt(PCH_List theList, void *newData, uint index)
+void InsertNewDataAt(PCH_List *theListPtr, void *newData, uint index)
 {
+    // PCH_List theList = *theListPtr;
+    
     if (index == 0)
     {
-        PushNewHead(theList, newData);
+        PushNewHead(theListPtr, newData);
     }
-    else if (index >= theList.numNodes - 1)
+    else if (index >= theListPtr->numNodes - 1)
     {
-        AppendNewData(theList, newData);
+        AppendNewData(theListPtr, newData);
     }
     else
     {
-        void *newNodeData = malloc(theList.datasize);
-        memcpy(newNodeData, newData, theList.datasize);
+        void *newNodeData = malloc(theListPtr->datasize);
+        memcpy(newNodeData, newData, theListPtr->datasize);
         
         node newNode = malloc(sizeof(struct _listNode));
         newNode->data = newNodeData;
         
-        node oldNode = theList.currentHead;
+        node oldNode = theListPtr->currentHead;
         node oldPrevNode = NULL;
         for (int i=0; i<index; i++)
         {
@@ -204,32 +220,34 @@ void InsertNewDataAt(PCH_List theList, void *newData, uint index)
         newNode->prev = oldPrevNode;
         newNode->next = oldNode;
         
-        theList.numNodes += 1;
+        theListPtr->numNodes += 1;
     }
 }
 
 // Returns the data pointer at the head of the list
-void *ListHead(PCH_List theList)
+void *ListHead(PCH_List *theListPtr)
 {
-    return theList.currentHead->data;
+    return theListPtr->currentHead->data;
 }
 
 // Returns the data pointer at the tail of the list
-void *ListTail(PCH_List theList)
+void *ListTail(PCH_List *theListPtr)
 {
-    return theList.currentTail->data;
+    return theListPtr->currentTail->data;
 }
 
 // Return the data pointer at index. If index is greater than the length of the list, NULL is returned.
-void *ListDataAt(PCH_List theList, uint index)
+void *ListDataAt(PCH_List *theListPtr, uint index)
 {
-    if (index >= theList.numNodes)
+    // PCH_List theList = *theListPtr;
+    
+    if (index >= theListPtr->numNodes)
     {
         DLog("Index is beyond end of list - aborting");
         return NULL;
     }
     
-    node theNode = theList.currentHead;
+    node theNode = theListPtr->currentHead;
     for (int i=0; i<index; i++)
     {
         theNode = theNode->next;
@@ -239,35 +257,41 @@ void *ListDataAt(PCH_List theList, uint index)
 }
 
 // Remove the node at the head of the list and free the memory
-void RemoveHead(PCH_List theList)
+void RemoveHead(PCH_List *theListPtr)
 {
-    node oldHead = theList.currentHead;
-    theList.currentHead = oldHead->next;
-    theList.currentHead->prev = NULL;
+    // PCH_List theList = *theListPtr;
+    
+    node oldHead = theListPtr->currentHead;
+    theListPtr->currentHead = oldHead->next;
+    theListPtr->currentHead->prev = NULL;
     
     free(oldHead->data);
     free(oldHead);
     
-    theList.numNodes -= 1;
+    theListPtr->numNodes -= 1;
 }
 
 // Remove the node at the tail of the list and free the memory
-void RemoveTail(PCH_List theList)
+void RemoveTail(PCH_List *theListPtr)
 {
-    node oldTail = theList.currentTail;
-    theList.currentTail = oldTail->prev;
-    theList.currentTail->next = NULL;
+    // PCH_List theList = *theListPtr;
+    
+    node oldTail = theListPtr->currentTail;
+    theListPtr->currentTail = oldTail->prev;
+    theListPtr->currentTail->next = NULL;
     
     free(oldTail->data);
     free(oldTail);
     
-    theList.numNodes -= 1;
+    theListPtr->numNodes -= 1;
 }
 
 // Remove the node at index, free the memory and return (does nothing if index is greater than the length of the list
-void RemoveDataAt(PCH_List theList, uint index)
+void RemoveDataAt(PCH_List *theListPtr, uint index)
 {
-    if (index >= theList.numNodes)
+    // PCH_List theList = *theListPtr;
+    
+    if (index >= theListPtr->numNodes)
     {
         DLog("Index is beyond end of list - aborting");
         return;
@@ -275,17 +299,17 @@ void RemoveDataAt(PCH_List theList, uint index)
     
     if (index == 0)
     {
-        RemoveHead(theList);
+        RemoveHead(theListPtr);
         return;
     }
     
-    if (index == theList.numNodes - 1)
+    if (index == theListPtr->numNodes - 1)
     {
-        RemoveTail(theList);
+        RemoveTail(theListPtr);
         return;
     }
     
-    node lastPrev = theList.currentHead;
+    node lastPrev = theListPtr->currentHead;
     node theNode = lastPrev->next;
     for (int i=1; i<index; i++)
     {
@@ -299,13 +323,15 @@ void RemoveDataAt(PCH_List theList, uint index)
     free(theNode->data);
     free(theNode);
     
-    theList.numNodes -= 1;
+    theListPtr->numNodes -= 1;
 }
 
 // Remove all the nodes from the list and free the memory as necessary
-void RemoveAll(PCH_List theList)
+void RemoveAll(PCH_List *theListPtr)
 {
-    node theNode = theList.currentHead;
+    // PCH_List theList = *theListPtr;
+    
+    node theNode = theListPtr->currentHead;
     
     while (theNode != NULL)
     {
@@ -316,37 +342,39 @@ void RemoveAll(PCH_List theList)
         free(deadNode);
     }
     
-    theList.currentHead = NULL;
-    theList.currentTail = NULL;
-    theList.numNodes = 0;
+    theListPtr->currentHead = NULL;
+    theListPtr->currentTail = NULL;
+    theListPtr->numNodes = 0;
 }
 
 /// Return the list as a standard C array. The number of elements in the array is returned in numElements (the parameter's value is ignored on entry). It is the calling routine's responsibilty to destroy the array (using free) when it's done with it.
-void *ListAsArray(PCH_List theList, int *numElements)
+void *ListAsArray(PCH_List *theListPtr, int *numElements)
 {
-    void *result = malloc(theList.numNodes * theList.datasize);
+    // PCH_List theList = *theListPtr;
     
-    node theNode = theList.currentHead;
+    void *result = malloc(theListPtr->numNodes * theListPtr->datasize);
+    
+    node theNode = theListPtr->currentHead;
     
     void *currentElementPtr = result;
     while (theNode != NULL)
     {
-        memcpy(currentElementPtr, theNode->data, theList.datasize);
+        memcpy(currentElementPtr, theNode->data, theListPtr->datasize);
         
-        currentElementPtr += theList.datasize;
+        currentElementPtr += theListPtr->datasize;
         theNode = theNode->next;
     }
     
-    *numElements = theList.numNodes;
+    *numElements = theListPtr->numNodes;
     
     return result;
 }
 
 /// Sort the list using the given comparison function. The comparison function return value is the same as required by the qsort() library function, namely: "a then b" returns -1; "a == b" returns 0; "b then a" returns +1
-void SortList(PCH_List theList, int (*compareFunction)(const void *a,const void *b))
+void SortList(PCH_List *theListPtr, int (*compareFunction)(const void *a,const void *b))
 {
     // Don't bother going through with the sort if there are zero or one elements in it
-    if (theList.numNodes < 2)
+    if (theListPtr->numNodes < 2)
     {
         DLog("Less than 2 elements in the list - ignoring call to 'sort'");
         return;
@@ -354,11 +382,11 @@ void SortList(PCH_List theList, int (*compareFunction)(const void *a,const void 
     
     // First, we need to put the list elements into an array
     int numElements = 0;
-    void *dataArray = ListAsArray(theList, &numElements);
+    void *dataArray = ListAsArray(theListPtr, &numElements);
     
-    qsort(dataArray, numElements, theList.datasize, compareFunction);
+    qsort(dataArray, numElements, theListPtr->datasize, compareFunction);
     
-    SetListWithArray(theList, numElements, dataArray);
+    SetListWithArray(theListPtr, numElements, dataArray);
     
     // release the memory used by the array
     free(dataArray);

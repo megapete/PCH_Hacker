@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D382723221387C9F00A00142 /* PCH_Directory.c in Sources */ = {isa = PBXBuildFile; fileRef = D382723021387C9F00A00142 /* PCH_Directory.c */; };
 		D38272352138818100A00142 /* PCH_File.c in Sources */ = {isa = PBXBuildFile; fileRef = D38272332138818100A00142 /* PCH_File.c */; };
+		D38272382138B04F00A00142 /* Tests.c in Sources */ = {isa = PBXBuildFile; fileRef = D38272362138B04F00A00142 /* Tests.c */; };
 		D3972F422136F61400C879DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3972F412136F61400C879DD /* AppDelegate.swift */; };
 		D3972F442136F61700C879DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3972F432136F61700C879DD /* Assets.xcassets */; };
 		D3972F472136F61700C879DD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3972F452136F61700C879DD /* MainMenu.xib */; };
@@ -23,6 +24,8 @@
 		D382723121387C9F00A00142 /* PCH_Directory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCH_Directory.h; sourceTree = "<group>"; };
 		D38272332138818100A00142 /* PCH_File.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = PCH_File.c; sourceTree = "<group>"; };
 		D38272342138818100A00142 /* PCH_File.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCH_File.h; sourceTree = "<group>"; };
+		D38272362138B04F00A00142 /* Tests.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Tests.c; sourceTree = "<group>"; };
+		D38272372138B04F00A00142 /* Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tests.h; sourceTree = "<group>"; };
 		D3972F3E2136F61400C879DD /* PCH_Hacker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PCH_Hacker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3972F412136F61400C879DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3972F432136F61700C879DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -72,6 +75,8 @@
 			isa = PBXGroup;
 			children = (
 				D3972F412136F61400C879DD /* AppDelegate.swift */,
+				D38272362138B04F00A00142 /* Tests.c */,
+				D38272372138B04F00A00142 /* Tests.h */,
 				D382723021387C9F00A00142 /* PCH_Directory.c */,
 				D382723121387C9F00A00142 /* PCH_Directory.h */,
 				D38272332138818100A00142 /* PCH_File.c */,
@@ -168,6 +173,7 @@
 				D3972F6021383D3F00C879DD /* PCH_Url.c in Sources */,
 				D3972F422136F61400C879DD /* AppDelegate.swift in Sources */,
 				D3972F582137146A00C879DD /* PCH_List.c in Sources */,
+				D38272382138B04F00A00142 /* Tests.c in Sources */,
 				D382723221387C9F00A00142 /* PCH_Directory.c in Sources */,
 				D3972F5B2138076400C879DD /* PCH_Port.c in Sources */,
 				D38272352138818100A00142 /* PCH_File.c in Sources */,
