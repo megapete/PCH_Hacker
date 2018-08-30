@@ -38,5 +38,10 @@ PCH_PortList CreatePortList(void);
 /// Add a new port to the list
 void AppendPort(PCH_PortList pList, PCH_port port);
 
+/// Destroy and free all memory associated with a port list. This should be called before a port list goes out of scope or is no longer needed.
+void DestroyPortList(PCH_PortList theList);
+
+/// Sort a port list (uses the port number for sorting)
+void SortPortList(PCH_PortList theList);
 
 #endif /* PCH_Port_h */

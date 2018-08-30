@@ -13,6 +13,8 @@
 		D3972F552136F9EC00C879DD /* BasicStructs.c in Sources */ = {isa = PBXBuildFile; fileRef = D3972F532136F9EC00C879DD /* BasicStructs.c */; };
 		D3972F582137146A00C879DD /* PCH_List.c in Sources */ = {isa = PBXBuildFile; fileRef = D3972F562137146A00C879DD /* PCH_List.c */; };
 		D3972F5B2138076400C879DD /* PCH_Port.c in Sources */ = {isa = PBXBuildFile; fileRef = D3972F592138076400C879DD /* PCH_Port.c */; };
+		D3972F6021383D3F00C879DD /* PCH_Url.c in Sources */ = {isa = PBXBuildFile; fileRef = D3972F5E21383D3F00C879DD /* PCH_Url.c */; };
+		D3972F6321383F1100C879DD /* PCH_DNS_Table.c in Sources */ = {isa = PBXBuildFile; fileRef = D3972F6121383F1100C879DD /* PCH_DNS_Table.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,10 @@
 		D3972F592138076400C879DD /* PCH_Port.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = PCH_Port.c; sourceTree = "<group>"; };
 		D3972F5A2138076400C879DD /* PCH_Port.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCH_Port.h; sourceTree = "<group>"; };
 		D3972F5D21381AA800C879DD /* PCH_C_Logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCH_C_Logging.h; path = ../../../../Dropbox/MyProjects/PCH_C_Logging.h; sourceTree = "<group>"; };
+		D3972F5E21383D3F00C879DD /* PCH_Url.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = PCH_Url.c; sourceTree = "<group>"; };
+		D3972F5F21383D3F00C879DD /* PCH_Url.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCH_Url.h; sourceTree = "<group>"; };
+		D3972F6121383F1100C879DD /* PCH_DNS_Table.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = PCH_DNS_Table.c; sourceTree = "<group>"; };
+		D3972F6221383F1100C879DD /* PCH_DNS_Table.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCH_DNS_Table.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +71,10 @@
 				D3972F412136F61400C879DD /* AppDelegate.swift */,
 				D3972F532136F9EC00C879DD /* BasicStructs.c */,
 				D3972F542136F9EC00C879DD /* BasicStructs.h */,
+				D3972F6121383F1100C879DD /* PCH_DNS_Table.c */,
+				D3972F6221383F1100C879DD /* PCH_DNS_Table.h */,
+				D3972F5E21383D3F00C879DD /* PCH_Url.c */,
+				D3972F5F21383D3F00C879DD /* PCH_Url.h */,
 				D3972F592138076400C879DD /* PCH_Port.c */,
 				D3972F5A2138076400C879DD /* PCH_Port.h */,
 				D3972F562137146A00C879DD /* PCH_List.c */,
@@ -150,9 +160,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3972F6021383D3F00C879DD /* PCH_Url.c in Sources */,
 				D3972F422136F61400C879DD /* AppDelegate.swift in Sources */,
 				D3972F582137146A00C879DD /* PCH_List.c in Sources */,
 				D3972F5B2138076400C879DD /* PCH_Port.c in Sources */,
+				D3972F6321383F1100C879DD /* PCH_DNS_Table.c in Sources */,
 				D3972F552136F9EC00C879DD /* BasicStructs.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

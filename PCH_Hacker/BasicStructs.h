@@ -14,23 +14,5 @@
 
 
 
-#define MAX_URL_NAME_LENGTH 32
-
-// Ports
-
-
-
-
-
-
-// Urls
-
-typedef struct _url {
-    
-    int address[4]; // standard ipV4 adress fields
-    char name[MAX_URL_NAME_LENGTH];
-    
-} PCH_url;
-
 
 #endif /* BasicStructs_h */
