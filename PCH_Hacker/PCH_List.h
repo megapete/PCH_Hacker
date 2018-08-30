@@ -6,8 +6,11 @@
 //  Copyright © 2018 Peter Huber. All rights reserved.
 //
 
-// My attempt at a generic list class for C (to make things more portable until/if Swift becomes usable on Windows with MS). Note that the data is referred to by reference within the class. Also note that all data passed to the list is implicitly copied and so the original data is left untouched by the list.
+// My attempt at a generic list class for C (to make things more portable until/if Swift becomes usable on Windows with MS).
 
+// Note: The data is referred to by reference within the class.
+// Note: All data passed to the list is internally malloc'd and copied and so the original data is left untouched by the list.
+// Note: This class allows copies of items within the list. If this is not desired, it is up to the calling routine to write the logic to avoid copies.
 
 
 #ifndef PCH_List_h
@@ -47,8 +50,14 @@ void PushNewHead(PCH_List theList, void *newHeadData);
 // Add new data to the tail of the list.
 void AppendNewData(PCH_List theList, void *newTailData);
 
+// Append listToAppend to the end of destList. It is up to the calling routine to make sure that destList is not equal to listToAppend
+void AppendNewList(PCH_List destList, PCH_List listToAppend);
+
 // Insert new data at the index indicated (this routine can be slow in a large list)
 void InsertNewDataAt(PCH_List theList, void *newData, uint index);
+
+// Set the data at the index indicated. Whatever was there will be deleted. If index is greater than the size of the list, nothing is set.
+void SetDataAt(PCH_List theList, void *newData, uint index);
 
 // Returns the data pointer at the head of the list
 void *ListHead(PCH_List theList);
@@ -69,6 +78,7 @@ void RemoveTail(PCH_List theList);
 void RemoveDataAt(PCH_List theList, uint index);
 
 // Remove all the nodes from the list and free the memory as necessary
+void RemoveAll(PCH_List theList);
 
 
 #endif /* PCH_List_h */

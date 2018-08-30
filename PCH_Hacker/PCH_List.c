@@ -93,6 +93,43 @@ void AppendNewData(PCH_List theList, void *newTailData)
     theList.numNodes += 1;
 }
 
+// Append listToAppend to the end of destList. It is up to the calling routine to make sure that destList is not equal to listToAppend. If the two lists are of different datasizes, nothing is done and the routine returns.
+void AppendNewList(PCH_List destList, PCH_List listToAppend)
+{
+    if (destList.datasize != listToAppend.datasize)
+    {
+        return;
+    }
+    
+    if (listToAppend.numNodes == 0)
+    {
+        return;
+    }
+    
+    listToAppend.currentHead->prev = destList.currentTail;
+    destList.currentTail->next = listToAppend.currentHead;
+    destList.currentTail = listToAppend.currentTail;
+    
+    destList.numNodes += listToAppend.numNodes;
+}
+
+// Set the data at the index indicated. Whatever was there will be deleted. If index is greater than the size of the list, nothing is set.
+void SetDataAt(PCH_List theList, void *newData, uint index)
+{
+    if (index >= theList.numNodes)
+    {
+        return;
+    }
+    
+    node theNode = theList.currentHead;
+    int nodeIndex = 0;
+    
+    while (theNode != NULL && nodeIndex < index)
+    {
+        
+    }
+}
+
 // Insert new data at the index indicated (this routine can be slow in a large list with a high index)
 void InsertNewDataAt(PCH_List theList, void *newData, uint index)
 {
@@ -193,8 +230,54 @@ void RemoveDataAt(PCH_List theList, uint index)
         return;
     }
     
+    if (index == 0)
+    {
+        RemoveHead(theList);
+        return;
+    }
     
+    if (index == theList.numNodes - 1)
+    {
+        RemoveTail(theList);
+        return;
+    }
+    
+    node lastPrev = theList.currentHead;
+    node theNode = lastPrev->next;
+    for (int i=1; i<index; i++)
+    {
+        lastPrev = theNode;
+        theNode = theNode->next;
+    }
+    
+    lastPrev->next = theNode->next;
+    theNode->next->prev = lastPrev;
+    
+    free(theNode->data);
+    free(theNode);
+    
+    theList.numNodes -= 1;
 }
+
+// Remove all the nodes from the list and free the memory as necessary
+void RemoveAll(PCH_List theList)
+{
+    node theNode = theList.currentHead;
+    
+    while (theNode != NULL)
+    {
+        node deadNode = theNode;
+        theNode = theNode->next;
+        
+        free(deadNode->data);
+        free(deadNode);
+    }
+    
+    theList.currentHead = NULL;
+    theList.currentTail = NULL;
+    theList.numNodes = 0;
+}
+
 
 
 
