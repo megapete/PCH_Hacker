@@ -8,6 +8,7 @@
 
 #include "PCH_List.h"
 #include <string.h>
+#include "PCH_C_Logging.h"
 
 typedef struct _listNode *node;
 
@@ -55,6 +56,35 @@ PCH_List CreateListWithDataArray(void *dataArray, uint numDataElements, size_t d
     return newList;
 }
 
+/// Replace the contents of theList with the contents of dataArray
+void SetListWithArray(PCH_List theList, uint numDataElements, void *dataArray)
+{
+    if (theList.numNodes > 0)
+    {
+        RemoveAll(theList);
+    }
+    
+    void *currentDataPtr = dataArray;
+    for (int i=0; i<numDataElements; i++)
+    {
+        void *newNodeData = malloc(theList.datasize);
+        memcpy(newNodeData, currentDataPtr, theList.datasize);
+        currentDataPtr += theList.datasize;
+        
+        node newNode = malloc(sizeof(struct _listNode));
+        newNode->data = newNodeData;
+        newNode->prev = theList.currentTail;
+        newNode->next = NULL;
+        
+        theList.currentTail = newNode;
+        
+        if (theList.currentHead == NULL)
+        {
+            theList.currentHead = newNode;
+        }
+    }
+}
+
 // Add new data to the head of the list.
 void PushNewHead(PCH_List theList, void *newHeadData)
 {
@@ -98,11 +128,13 @@ void AppendNewList(PCH_List destList, PCH_List listToAppend)
 {
     if (destList.datasize != listToAppend.datasize)
     {
+        ALog("Incompatible data sizes!");
         return;
     }
     
     if (listToAppend.numNodes == 0)
     {
+        DLog("List to append is empty");
         return;
     }
     
@@ -118,6 +150,7 @@ void SetDataAt(PCH_List theList, void *newData, uint index)
 {
     if (index >= theList.numNodes)
     {
+        DLog("Index is beyond end of list - aborting");
         return;
     }
     
@@ -126,8 +159,16 @@ void SetDataAt(PCH_List theList, void *newData, uint index)
     
     while (theNode != NULL && nodeIndex < index)
     {
-        
+        theNode = theNode->next;
     }
+    
+    if (theNode == NULL)
+    {
+        ALog("Something really weird happened!");
+    }
+    
+    memcpy(theNode->data, newData, theList.datasize);
+    
 }
 
 // Insert new data at the index indicated (this routine can be slow in a large list with a high index)
@@ -184,6 +225,7 @@ void *ListDataAt(PCH_List theList, uint index)
 {
     if (index >= theList.numNodes)
     {
+        DLog("Index is beyond end of list - aborting");
         return NULL;
     }
     
@@ -227,6 +269,7 @@ void RemoveDataAt(PCH_List theList, uint index)
 {
     if (index >= theList.numNodes)
     {
+        DLog("Index is beyond end of list - aborting");
         return;
     }
     
@@ -278,6 +321,48 @@ void RemoveAll(PCH_List theList)
     theList.numNodes = 0;
 }
 
+/// Return the list as a standard C array. The number of elements in the array is returned in numElements (the parameter's value is ignored on entry). It is the calling routine's responsibilty to destroy the array (using free) when it's done with it.
+void *ListAsArray(PCH_List theList, int *numElements)
+{
+    void *result = malloc(theList.numNodes * theList.datasize);
+    
+    node theNode = theList.currentHead;
+    
+    void *currentElementPtr = result;
+    while (theNode != NULL)
+    {
+        memcpy(currentElementPtr, theNode->data, theList.datasize);
+        
+        currentElementPtr += theList.datasize;
+        theNode = theNode->next;
+    }
+    
+    *numElements = theList.numNodes;
+    
+    return result;
+}
+
+/// Sort the list using the given comparison function. The comparison function return value is the same as required by the qsort() library function, namely: "a then b" returns -1; "a == b" returns 0; "b then a" returns +1
+void SortList(PCH_List theList, int (*compareFunction)(const void *a,const void *b))
+{
+    // Don't bother going through with the sort if there are zero or one elements in it
+    if (theList.numNodes < 2)
+    {
+        DLog("Less than 2 elements in the list - ignoring call to 'sort'");
+        return;
+    }
+    
+    // First, we need to put the list elements into an array
+    int numElements = 0;
+    void *dataArray = ListAsArray(theList, &numElements);
+    
+    qsort(dataArray, numElements, theList.datasize, compareFunction);
+    
+    SetListWithArray(theList, numElements, dataArray);
+    
+    // release the memory used by the array
+    free(dataArray);
+}
 
 
 

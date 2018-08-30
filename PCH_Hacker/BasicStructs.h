@@ -12,25 +12,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_PORT_NAME_LENGTH 32
-#define MAX_PORT_PASSWORD_LENGTH 128
+
 
 #define MAX_URL_NAME_LENGTH 32
 
 // Ports
 
-typedef enum _portStatus {closed, openReadOnly, openWriteOnly, openRW} PCH_portStatus;
 
-typedef struct _port {
-    
-    int number;
-    char name[MAX_PORT_NAME_LENGTH];
-    char password[MAX_PORT_PASSWORD_LENGTH];
-    PCH_portStatus status;
-    
-    // TODO: Add file system pointer for the port
-    
-} PCH_port;
+
+
 
 
 // Urls

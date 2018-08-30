@@ -12,6 +12,7 @@
 		D3972F472136F61700C879DD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3972F452136F61700C879DD /* MainMenu.xib */; };
 		D3972F552136F9EC00C879DD /* BasicStructs.c in Sources */ = {isa = PBXBuildFile; fileRef = D3972F532136F9EC00C879DD /* BasicStructs.c */; };
 		D3972F582137146A00C879DD /* PCH_List.c in Sources */ = {isa = PBXBuildFile; fileRef = D3972F562137146A00C879DD /* PCH_List.c */; };
+		D3972F5B2138076400C879DD /* PCH_Port.c in Sources */ = {isa = PBXBuildFile; fileRef = D3972F592138076400C879DD /* PCH_Port.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,9 @@
 		D3972F542136F9EC00C879DD /* BasicStructs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BasicStructs.h; sourceTree = "<group>"; };
 		D3972F562137146A00C879DD /* PCH_List.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = PCH_List.c; sourceTree = "<group>"; };
 		D3972F572137146A00C879DD /* PCH_List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCH_List.h; sourceTree = "<group>"; };
+		D3972F592138076400C879DD /* PCH_Port.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = PCH_Port.c; sourceTree = "<group>"; };
+		D3972F5A2138076400C879DD /* PCH_Port.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCH_Port.h; sourceTree = "<group>"; };
+		D3972F5D21381AA800C879DD /* PCH_C_Logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCH_C_Logging.h; path = ../../../../Dropbox/MyProjects/PCH_C_Logging.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +65,11 @@
 				D3972F412136F61400C879DD /* AppDelegate.swift */,
 				D3972F532136F9EC00C879DD /* BasicStructs.c */,
 				D3972F542136F9EC00C879DD /* BasicStructs.h */,
+				D3972F592138076400C879DD /* PCH_Port.c */,
+				D3972F5A2138076400C879DD /* PCH_Port.h */,
 				D3972F562137146A00C879DD /* PCH_List.c */,
 				D3972F572137146A00C879DD /* PCH_List.h */,
+				D3972F5D21381AA800C879DD /* PCH_C_Logging.h */,
 				D3972F432136F61700C879DD /* Assets.xcassets */,
 				D3972F452136F61700C879DD /* MainMenu.xib */,
 				D3972F482136F61700C879DD /* Info.plist */,
@@ -145,6 +152,7 @@
 			files = (
 				D3972F422136F61400C879DD /* AppDelegate.swift in Sources */,
 				D3972F582137146A00C879DD /* PCH_List.c in Sources */,
+				D3972F5B2138076400C879DD /* PCH_Port.c in Sources */,
 				D3972F552136F9EC00C879DD /* BasicStructs.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
