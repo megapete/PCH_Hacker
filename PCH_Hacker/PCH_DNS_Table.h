@@ -14,7 +14,7 @@
 #include <string.h>
 #include "PCH_List.h"
 
-#define MAX_DNS_NAME_LENGTH 256
+#define MAX_DNS_NAME_LENGTH 128
 
 typedef struct _dnsEntry {
     
@@ -40,10 +40,10 @@ void DestroyDnsTable(PCH_dnsTable *theTable);
 /// Compare the two entries and if the fields match, return TRUE, else return FALSE
 bool EntriesAreEqual(PCH_dnsEntry entry1, PCH_dnsEntry entry2);
 
-/// Try to find the ipv4 adress for the given site name. If it is not in the table, return NULL
-int* LookupName(PCH_dnsTable *theTable, char *siteName);
+/// Try to find the ipv4 adress for the given site name. The argument 'ipv4' must be initialized as a 4-int array (whatever is already in there will be clobbered). If the name is found, the function returns TRUE, otherwise FALSE.
+bool LookupDnsName(PCH_dnsTable *theTable, const char *siteName, int *ipv4);
 
-/// Scan the beginning of each site name in theTable and return the first full site name that matches the given pattern (NULL if none). This is useful for autocompletion of the name.
-char* ScanForSiteName(PCH_dnsTable *theTable, char *pattern);
+/// Scan the beginning of each site name in theTable and stuff the first full site name that matches the given pattern into siteBuffer. If bufferSize is less than 0, MAX_DNS_NAME_LENGTH is used and it is assumed that siteBuffer has been initialzed with that length, This function is useful for autocompletion of the name. The function returns TRUE if a match was found, otheriwse FALSE.
+bool ScanForSiteName(PCH_dnsTable *theTable, char *findPattern, char *siteBuffer, int bufferSize);
 
 #endif /* PCH_DNS_Table_h */

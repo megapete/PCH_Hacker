@@ -51,5 +51,28 @@ void RunTests(void)
     AppendFile(&fileList, file2);
     AppendFile(&fileList, file3);
     
+    char descBuffer[MAX_FILE_DESCRIPTION_LENGTH];
+    PCH_ListNode *nextFileNode = fileList.currentHead;
+    while (nextFileNode != NULL)
+    {
+        PCH_File *nextFilePtr = nextFileNode->data;
+        FileDescription(*nextFilePtr, descBuffer, -1);
+        fprintf(stderr, "%s\n", descBuffer);
+        
+        nextFileNode = nextFileNode->next;
+    }
+    
     SortFileList(&fileList);
+    
+    fprintf(stderr, "\nAfter SORT\n\n");
+    
+    nextFileNode = fileList.currentHead;
+    while (nextFileNode != NULL)
+    {
+        PCH_File *nextFilePtr = nextFileNode->data;
+        FileDescription(*nextFilePtr, descBuffer, -1);
+        fprintf(stderr, "%s\n", descBuffer);
+        
+        nextFileNode = nextFileNode->next;
+    }
 }

@@ -42,3 +42,18 @@ int DirectoryComparisonFunction(const void *d1, const void *d2)
     
     return strcmp(dir1->name, dir2->name);
 }
+
+/// Get the description of the directory as a C-string and stuff it into the provided buffer. If bufferSize is -1, the program assumes that descBuffer has been allocated with MAX_FILE_DESCRIPTION_LENGTH.
+void DirectoryDescription(PCH_Directory theDirectory, char *descBuffer, int bufferSize)
+{
+    int useBuffSize = MAX_FILE_DESCRIPTION_LENGTH - 1;
+    if (bufferSize > 0)
+    {
+        useBuffSize = bufferSize - 1;
+    }
+    
+    snprintf(descBuffer, useBuffSize, "%s/", theDirectory.name);
+    
+    // force the final byte to NULL
+    descBuffer[useBuffSize] = '0';
+}

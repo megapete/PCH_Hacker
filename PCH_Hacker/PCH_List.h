@@ -19,14 +19,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct _listNode {
+typedef struct _listNode {
     
     struct _listNode *prev;
     
     void *data;
     
     struct _listNode *next;
-};
+    
+} PCH_ListNode;
 
 typedef struct _list {
     

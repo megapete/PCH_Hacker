@@ -63,8 +63,8 @@ void DestroyDnsTable(PCH_dnsTable *theTable)
     RemoveAll(theTable);
 }
 
-/// Try to find the ipv4 adress for the given site name. If it is not in the table, return NULL
-int* LookupName(PCH_dnsTable *theTable, char *siteName)
+/// Try to find the ipv4 adress for the given site name. The argument 'ipv4' must be initialized as a 4-int array (whatever is already in there will be clobbered). If the name is found, the function returns TRUE, otherwise FALSE.
+bool LookupDnsName(PCH_dnsTable *theTable, const char *siteName, int *ipv4)
 {
     struct _listNode *nextEntryNode = theTable->currentHead;
     
@@ -74,19 +74,26 @@ int* LookupName(PCH_dnsTable *theTable, char *siteName)
         
         if (strcmp(siteName, nextEntryPtr->siteName) == 0)
         {
-            return nextEntryPtr->address;
+            memcpy(ipv4, nextEntryPtr->address, 4 * sizeof(int));
+            return true;
         }
         
         nextEntryNode = nextEntryNode->next;
     }
     
-    return NULL;
+    return false;
 }
 
-/// Scan the beginning of each site name in theTable and return the first full site name that matches the given pattern (NULL if none). This is useful for autocompletion of the name.
-char* ScanForSiteName(PCH_dnsTable *theTable, char *pattern)
+/// Scan the beginning of each site name in theTable and stuff the first full site name that matches the given pattern into siteBuffer. If bufferSize is less than 0, MAX_DNS_NAME_LENGTH is used and it is assumed that siteBuffer has been initialzed with that length, This function is useful for autocompletion of the name. The function returns TRUE if a match was found, otheriwse FALSE.
+bool ScanForSiteName(PCH_dnsTable *theTable, char *findPattern, char *siteBuffer, int bufferSize)
 {
-    size_t maxCharsToCheck = (size_t)strlen(pattern);
+    size_t maxCharsToCheck = (size_t)strlen(findPattern);
+    
+    int useSize = MAX_DNS_NAME_LENGTH;
+    if (bufferSize > 0)
+    {
+        useSize = bufferSize;
+    }
     
     struct _listNode *nextEntryNode = theTable->currentHead;
     
@@ -95,13 +102,15 @@ char* ScanForSiteName(PCH_dnsTable *theTable, char *pattern)
         PCH_dnsEntry *nextEntryPtr = (PCH_dnsEntry *)(nextEntryNode->data);
         char *nextSiteName = nextEntryPtr->siteName;
         
-        if ((strlen(nextSiteName) >= maxCharsToCheck) && (strncmp(nextSiteName, pattern, maxCharsToCheck) == 0))
+        if ((strlen(nextSiteName) >= maxCharsToCheck) && (strncmp(nextSiteName, findPattern, maxCharsToCheck) == 0))
         {
-            return nextSiteName;
+            strncpy(siteBuffer, nextSiteName, useSize);
+            return true;
         }
         
         nextEntryNode = nextEntryNode->next;
     }
     
-    return NULL;
+    return false;
 }
+

@@ -12,8 +12,10 @@
 #include <stdio.h>
 #include "PCH_List.h"
 
-#define MAX_FILE_NAME_LENGTH 256
+#define MAX_FILE_NAME_LENGTH 32
+#define MAX_FILE_DESCRIPTION_LENGTH 128
 #define MAX_FILE_LENGTH 32767
+
 
 typedef PCH_List PCH_FileList;
 
@@ -21,7 +23,7 @@ typedef struct _file {
     
     char name[MAX_FILE_NAME_LENGTH];
     
-    int fileSize;
+    long fileSize;
     
     char data[MAX_FILE_LENGTH];
     
@@ -38,5 +40,8 @@ void DestroyFileList(PCH_FileList *theList);
 
 /// Sort a file list (uses the file name for sorting)
 void SortFileList(PCH_FileList *theList);
+
+/// Get the description of the file as a C-string and stuff it into the provided buffer. If bufferSize is -1, the program assumes that descBuffer has been allocated with MAX_FILE_DESCRIPTION_LENGTH.
+void FileDescription(PCH_File theFile, char *descBuffer, int bufferSize);
 
 #endif /* PCH_File_h */

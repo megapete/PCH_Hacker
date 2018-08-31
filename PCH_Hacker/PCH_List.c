@@ -59,8 +59,6 @@ PCH_List CreateListWithDataArray(void *dataArray, uint numDataElements, size_t d
 /// Replace the contents of theList with the contents of dataArray
 void SetListWithArray(PCH_List *theListPtr, uint numDataElements, void *dataArray)
 {
-    // PCH_List theList = *theListPtr;
-    
     if (theListPtr->numNodes > 0)
     {
         RemoveAll(theListPtr);
@@ -76,6 +74,7 @@ void SetListWithArray(PCH_List *theListPtr, uint numDataElements, void *dataArra
         node newNode = malloc(sizeof(struct _listNode));
         newNode->data = newNodeData;
         newNode->prev = theListPtr->currentTail;
+        
         newNode->next = NULL;
         
         theListPtr->currentTail = newNode;
@@ -84,14 +83,18 @@ void SetListWithArray(PCH_List *theListPtr, uint numDataElements, void *dataArra
         {
             theListPtr->currentHead = newNode;
         }
+        else
+        {
+            newNode->prev->next = newNode;
+        }
+        
+        theListPtr->numNodes += 1;
     }
 }
 
 // Add new data to the head of the list.
 void PushNewHead(PCH_List *theListPtr, void *newHeadData)
 {
-    // PCH_List theList = *theListPtr;
-    
     node oldHead = theListPtr->currentHead;
     
     void *newNodeData = malloc(theListPtr->datasize);
@@ -111,8 +114,6 @@ void PushNewHead(PCH_List *theListPtr, void *newHeadData)
 // Add new data to the tail of the list.
 void AppendNewData(PCH_List *theListPtr, void *newTailData)
 {
-    // PCH_List theList = *theListPtr;
-    
     node oldTail = theListPtr->currentTail;
     
     void *newNodeData = malloc(theListPtr->datasize);
@@ -141,8 +142,6 @@ void AppendNewData(PCH_List *theListPtr, void *newTailData)
 // Append listToAppend to the end of theListPtr-> It is up to the calling routine to make sure that destList is not equal to listToAppend. If the two lists are of different datasizes, nothing is done and the routine returns.
 void AppendNewList(PCH_List *theListPtr, PCH_List *listToAppend)
 {
-    // PCH_List destList = *theListPtr;
-    
     if (theListPtr->datasize != listToAppend->datasize)
     {
         ALog("Incompatible data sizes!");
@@ -165,8 +164,6 @@ void AppendNewList(PCH_List *theListPtr, PCH_List *listToAppend)
 // Set the data at the index indicated. Whatever was there will be deleted. If index is greater than the size of the list, nothing is set.
 void SetDataAt(PCH_List *theListPtr, void *newData, uint index)
 {
-    // PCH_List theList = *theListPtr;
-    
     if (index >= theListPtr->numNodes)
     {
         DLog("Index is beyond end of list - aborting");
@@ -193,8 +190,6 @@ void SetDataAt(PCH_List *theListPtr, void *newData, uint index)
 // Insert new data at the index indicated (this routine can be slow in a large list with a high index)
 void InsertNewDataAt(PCH_List *theListPtr, void *newData, uint index)
 {
-    // PCH_List theList = *theListPtr;
-    
     if (index == 0)
     {
         PushNewHead(theListPtr, newData);
@@ -244,8 +239,6 @@ void *ListTail(PCH_List *theListPtr)
 // Return the data pointer at index. If index is greater than the length of the list, NULL is returned.
 void *ListDataAt(PCH_List *theListPtr, uint index)
 {
-    // PCH_List theList = *theListPtr;
-    
     if (index >= theListPtr->numNodes)
     {
         DLog("Index is beyond end of list - aborting");
@@ -264,8 +257,6 @@ void *ListDataAt(PCH_List *theListPtr, uint index)
 // Remove the node at the head of the list and free the memory
 void RemoveHead(PCH_List *theListPtr)
 {
-    // PCH_List theList = *theListPtr;
-    
     node oldHead = theListPtr->currentHead;
     theListPtr->currentHead = oldHead->next;
     theListPtr->currentHead->prev = NULL;
@@ -279,8 +270,6 @@ void RemoveHead(PCH_List *theListPtr)
 // Remove the node at the tail of the list and free the memory
 void RemoveTail(PCH_List *theListPtr)
 {
-    // PCH_List theList = *theListPtr;
-    
     node oldTail = theListPtr->currentTail;
     theListPtr->currentTail = oldTail->prev;
     theListPtr->currentTail->next = NULL;
@@ -294,8 +283,6 @@ void RemoveTail(PCH_List *theListPtr)
 // Remove the node at index, free the memory and return (does nothing if index is greater than the length of the list
 void RemoveDataAt(PCH_List *theListPtr, uint index)
 {
-    // PCH_List theList = *theListPtr;
-    
     if (index >= theListPtr->numNodes)
     {
         DLog("Index is beyond end of list - aborting");
@@ -334,8 +321,6 @@ void RemoveDataAt(PCH_List *theListPtr, uint index)
 // Remove all the nodes from the list and free the memory as necessary
 void RemoveAll(PCH_List *theListPtr)
 {
-    // PCH_List theList = *theListPtr;
-    
     node theNode = theListPtr->currentHead;
     
     while (theNode != NULL)
@@ -354,9 +339,7 @@ void RemoveAll(PCH_List *theListPtr)
 
 /// Return the list as a standard C array. The number of elements in the array is returned in numElements (the parameter's value is ignored on entry). It is the calling routine's responsibilty to destroy the array (using free) when it's done with it.
 void *ListAsArray(PCH_List *theListPtr, int *numElements)
-{
-    // PCH_List theList = *theListPtr;
-    
+{    
     void *result = malloc(theListPtr->numNodes * theListPtr->datasize);
     
     node theNode = theListPtr->currentHead;

@@ -43,3 +43,37 @@ int FileComparisonFunction(const void *f1, const void *f2)
     
     return strcmp(file1->name, file2->name);
 }
+
+/// Get the description of the file as a C-string and stuff it into the provided buffer. If bufferSize is -1, the program assumes that descBuffer has been allocated with MAX_FILE_DESCRIPTION_LENGTH.
+void FileDescription(PCH_File theFile, char *descBuffer, int bufferSize)
+{
+    int useBuffSize = MAX_FILE_DESCRIPTION_LENGTH - 1;
+    if (bufferSize > 0)
+    {
+        useBuffSize = bufferSize - 1;
+    }
+    
+    char sizeUnits[6] = "Bytes";
+    long useSize = theFile.fileSize;
+    
+    if (theFile.fileSize > 1073741824)
+    {
+        useSize /= 1073741824;
+        strcpy(sizeUnits, "GB");
+    }
+    else if (theFile.fileSize > 1048576)
+    {
+        useSize /= 1048576;
+        strcpy(sizeUnits, "MB");
+    }
+    else if (theFile.fileSize > 1024)
+    {
+        useSize /= 1024;
+        strcpy(sizeUnits, "kB");
+    }
+    
+    snprintf(descBuffer, useBuffSize, "%-*s %ld %s", MAX_FILE_NAME_LENGTH, theFile.name, useSize, sizeUnits);
+    
+    // force the final byte to NULL
+    descBuffer[useBuffSize] = '0';
+}

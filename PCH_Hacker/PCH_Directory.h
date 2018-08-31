@@ -39,5 +39,7 @@ void DestroyDirectoryList(PCH_DirectoryList *theList);
 /// Sort a directory list (uses the directory name for sorting)
 void SortDirectoryList(PCH_DirectoryList *theList);
 
+/// Get the description of the directory as a C-string and stuff it into the provided buffer. If bufferSize is -1, the program assumes that descBuffer has been allocated with MAX_FILE_DESCRIPTION_LENGTH.
+void DirectoryDescription(PCH_Directory theDirectory, char *descBuffer, int bufferSize);
 
 #endif /* PCH_Directory_h */
