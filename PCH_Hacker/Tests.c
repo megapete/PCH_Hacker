@@ -47,9 +47,9 @@ void RunTests(void)
     
     PCH_FileList fileList = CreateFileList();
     
-    AppendFile(fileList, file1);
-    AppendFile(fileList, file2);
-    AppendFile(fileList, file3);
+    AppendFile(&fileList, file1);
+    AppendFile(&fileList, file2);
+    AppendFile(&fileList, file3);
     
-    SortFileList(fileList);
+    SortFileList(&fileList);
 }

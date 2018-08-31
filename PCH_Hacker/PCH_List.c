@@ -123,6 +123,11 @@ void AppendNewData(PCH_List *theListPtr, void *newTailData)
     newNode->prev = oldTail;
     newNode->next = NULL;
     
+    if (theListPtr->currentHead == NULL)
+    {
+        theListPtr->currentHead = newNode;
+    }
+    
     if (oldTail != NULL)
     {
         oldTail->next = newNode;
@@ -134,27 +139,27 @@ void AppendNewData(PCH_List *theListPtr, void *newTailData)
 }
 
 // Append listToAppend to the end of theListPtr-> It is up to the calling routine to make sure that destList is not equal to listToAppend. If the two lists are of different datasizes, nothing is done and the routine returns.
-void AppendNewList(PCH_List *theListPtr, PCH_List listToAppend)
+void AppendNewList(PCH_List *theListPtr, PCH_List *listToAppend)
 {
     // PCH_List destList = *theListPtr;
     
-    if (theListPtr->datasize != listToAppend.datasize)
+    if (theListPtr->datasize != listToAppend->datasize)
     {
         ALog("Incompatible data sizes!");
         return;
     }
     
-    if (listToAppend.numNodes == 0)
+    if (listToAppend->numNodes == 0)
     {
         DLog("List to append is empty");
         return;
     }
     
-    listToAppend.currentHead->prev = theListPtr->currentTail;
-    theListPtr->currentTail->next = listToAppend.currentHead;
-    theListPtr->currentTail = listToAppend.currentTail;
+    listToAppend->currentHead->prev = theListPtr->currentTail;
+    theListPtr->currentTail->next = listToAppend->currentHead;
+    theListPtr->currentTail = listToAppend->currentTail;
     
-    theListPtr->numNodes += listToAppend.numNodes;
+    theListPtr->numNodes += listToAppend->numNodes;
 }
 
 // Set the data at the index indicated. Whatever was there will be deleted. If index is greater than the size of the list, nothing is set.

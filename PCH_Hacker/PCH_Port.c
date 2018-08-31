@@ -17,19 +17,19 @@ PCH_PortList CreatePortList()
 }
 
 /// Add a new port to the list
-void AppendPort(PCH_PortList pList, PCH_port port)
+void AppendPort(PCH_PortList *pList, PCH_port port)
 {
     AppendNewData(pList, &port);
 }
 
 /// Destroy and free all memory associated with a port list. This should be called before a port list goes out of scope or is no longer needed.
-void DestroyPortList(PCH_PortList theList)
+void DestroyPortList(PCH_PortList *theList)
 {
     RemoveAll(theList);
 }
 
 /// Sort a port list (uses the port number for sorting)
-void SortPortList(PCH_PortList theList)
+void SortPortList(PCH_PortList *theList)
 {
     SortList(theList, &PortComparisonFunction);
 }

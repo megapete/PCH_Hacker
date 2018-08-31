@@ -18,19 +18,19 @@ PCH_DirectoryList CreateDirectoryList(void)
 }
 
 /// Add a new directory to the list
-void AppendDirectory(PCH_DirectoryList theList, PCH_Directory directory)
+void AppendDirectory(PCH_DirectoryList *theList, PCH_Directory directory)
 {
     AppendNewData(theList, &directory);
 }
 
 /// Destroy and free all memory associated with a directory list. This should be called before a directory list goes out of scope or is no longer needed.
-void DestroyDirectoryList(PCH_DirectoryList theList)
+void DestroyDirectoryList(PCH_DirectoryList *theList)
 {
     RemoveAll(theList);
 }
 
 /// Sort a directory list (uses the directory name for sorting)
-void SortDirectoryList(PCH_DirectoryList theList)
+void SortDirectoryList(PCH_DirectoryList *theList)
 {
     SortList(theList, &DirectoryComparisonFunction);
 }

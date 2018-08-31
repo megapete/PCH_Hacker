@@ -29,21 +29,21 @@ typedef PCH_List PCH_dnsTable;
 PCH_dnsTable CreateDnsTable(void);
 
 /// Add a new port to the list
-void AppendDnsEntry(PCH_dnsTable theTable, PCH_dnsEntry entry);
+void AppendDnsEntry(PCH_dnsTable *theTable, PCH_dnsEntry entry);
 
 /// Remove all entries that match either the address or the site name of the given entry
-void RemoveDnsEntry(PCH_dnsTable theTable, PCH_dnsEntry entryToDelete);
+void RemoveDnsEntry(PCH_dnsTable *theTable, PCH_dnsEntry entryToDelete);
 
 /// Destroy and free all memory associated with a port list. This should be called before a port list goes out of scope or is no longer needed.
-void DestroyDnsTable(PCH_dnsTable theTable);
+void DestroyDnsTable(PCH_dnsTable *theTable);
 
 /// Compare the two entries and if the fields match, return TRUE, else return FALSE
 bool EntriesAreEqual(PCH_dnsEntry entry1, PCH_dnsEntry entry2);
 
 /// Try to find the ipv4 adress for the given site name. If it is not in the table, return NULL
-int* LookupName(PCH_dnsTable theTable, char *siteName);
+int* LookupName(PCH_dnsTable *theTable, char *siteName);
 
 /// Scan the beginning of each site name in theTable and return the first full site name that matches the given pattern (NULL if none). This is useful for autocompletion of the name.
-char* ScanForSiteName(PCH_dnsTable theTable, char *pattern);
+char* ScanForSiteName(PCH_dnsTable *theTable, char *pattern);
 
 #endif /* PCH_DNS_Table_h */

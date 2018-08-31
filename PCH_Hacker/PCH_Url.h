@@ -22,7 +22,7 @@ typedef struct _url {
     
     char name[MAX_URL_NAME_LENGTH];
     
-    PCH_PortList ports;
+    PCH_PortList *ports;
     
 } PCH_url;
 

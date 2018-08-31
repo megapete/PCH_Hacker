@@ -31,12 +31,12 @@ typedef struct _file {
 PCH_FileList CreateFileList(void);
 
 /// Add a new file to the list
-void AppendFile(PCH_FileList theList, PCH_File file);
+void AppendFile(PCH_FileList *theList, PCH_File file);
 
 /// Destroy and free all memory associated with a file list. This should be called before a file list goes out of scope or is no longer needed.
-void DestroyFileList(PCH_FileList theList);
+void DestroyFileList(PCH_FileList *theList);
 
 /// Sort a file list (uses the file name for sorting)
-void SortFileList(PCH_FileList theList);
+void SortFileList(PCH_FileList *theList);
 
 #endif /* PCH_File_h */

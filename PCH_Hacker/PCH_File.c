@@ -18,19 +18,19 @@ PCH_FileList CreateFileList(void)
 }
 
 /// Add a new file to the list
-void AppendFile(PCH_FileList theList, PCH_File file)
+void AppendFile(PCH_FileList *theList, PCH_File file)
 {
     AppendNewData(theList, &file);
 }
 
 /// Destroy and free all memory associated with a file list. This should be called before a file list goes out of scope or is no longer needed.
-void DestroyFileList(PCH_FileList theList)
+void DestroyFileList(PCH_FileList *theList)
 {
     RemoveAll(theList);
 }
 
 /// Sort a file list (uses the file name for sorting)
-void SortFileList(PCH_FileList theList)
+void SortFileList(PCH_FileList *theList)
 {
     SortList(theList, &FileComparisonFunction);
 }
