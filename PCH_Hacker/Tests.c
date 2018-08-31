@@ -19,37 +19,53 @@
 
 #include <string.h>
 
+void PrintFileList(PCH_FileList *theList);
+
 void RunTests(void)
 {
     PCH_File file1;
     PCH_File file2;
     PCH_File file3;
+    PCH_File file4;
+    PCH_File file5;
     
     char filename1[] = "InterestingFile.doc";
     char filename2[] = "DullFile.exe";
     char filename3[] = "MediocreFile.txt";
+    char filename4[] = "FileOfTrueDivinity.txt";
+    char filename5[] = "TheStuffOfLegend.txt";
     
     char fileContents1[] = "This here file is really, really something.";
     char fileContents2[] = "While this file is extraordinarily boring.";
     char fileContents3[] = "This file is intended to be somewhat intersting to some, but very boring to others.";
+    char fileContents4[] = "Haleluiah.";
+    char fileContents5[] = "This file is full of fucking swear-words.";
     
     file1.fileSize = (int)strlen(fileContents1);
-    file2.fileSize = (int)strlen(fileContents2);
+    file2.fileSize = 1234567;
     file3.fileSize = (int)strlen(fileContents3);
+    file4.fileSize = 123456789;
+    file5.fileSize = 34567;
     
     strcpy(file1.name, filename1);
     strcpy(file2.name, filename2);
     strcpy(file3.name, filename3);
+    strcpy(file4.name, filename4);
+    strcpy(file5.name, filename5);
     
     strcpy(file1.data, fileContents1);
     strcpy(file2.data, fileContents2);
     strcpy(file3.data, fileContents3);
+    strcpy(file4.data, fileContents4);
+    strcpy(file5.data, fileContents5);
     
     PCH_FileList fileList = CreateFileList();
     
     AppendFile(&fileList, file1);
     AppendFile(&fileList, file2);
     AppendFile(&fileList, file3);
+    AppendFile(&fileList, file4);
+    AppendFile(&fileList, file5);
     
     char descBuffer[MAX_FILE_DESCRIPTION_LENGTH];
     PCH_ListNode *nextFileNode = fileList.currentHead;
@@ -67,6 +83,49 @@ void RunTests(void)
     fprintf(stderr, "\nAfter SORT\n\n");
     
     nextFileNode = fileList.currentHead;
+    while (nextFileNode != NULL)
+    {
+        PCH_File *nextFilePtr = nextFileNode->data;
+        FileDescription(*nextFilePtr, descBuffer, -1);
+        fprintf(stderr, "%s\n", descBuffer);
+        
+        nextFileNode = nextFileNode->next;
+    }
+    
+    RemoveFile(&fileList, "MediocreFile.txt");
+    
+    fprintf(stderr, "\nAfter RemoveFile\n\n");
+    
+    nextFileNode = fileList.currentHead;
+    while (nextFileNode != NULL)
+    {
+        PCH_File *nextFilePtr = nextFileNode->data;
+        FileDescription(*nextFilePtr, descBuffer, -1);
+        fprintf(stderr, "%s\n", descBuffer);
+        
+        nextFileNode = nextFileNode->next;
+    }
+    
+    PCH_File fileArray[4] = {file1, file2, file3, file4};
+    
+    PCH_FileList fileList2 = CreateFileListWithArray(fileArray, 4);
+    
+    fprintf(stderr, "\nAfter Create with array\n\n");
+    
+    PrintFileList(&fileList2);
+    
+    PushNewHead(&fileList2, &file5);
+    
+    fprintf(stderr, "\nAfter PushNewHead()\n\n");
+    
+    PrintFileList(&fileList2);
+}
+
+void PrintFileList(PCH_FileList *theList)
+{
+    char descBuffer[MAX_FILE_DESCRIPTION_LENGTH];
+    PCH_ListNode *nextFileNode = theList->currentHead;
+    
     while (nextFileNode != NULL)
     {
         PCH_File *nextFilePtr = nextFileNode->data;

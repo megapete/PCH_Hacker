@@ -32,6 +32,9 @@ typedef struct _file {
 /// Create a new, empty file list
 PCH_FileList CreateFileList(void);
 
+/// Create a file list using the given array
+PCH_FileList CreateFileListWithArray(PCH_File *fileArray, int numFiles);
+
 /// Add a new file to the list
 void AppendFile(PCH_FileList *theList, PCH_File file);
 
@@ -40,6 +43,9 @@ void DestroyFileList(PCH_FileList *theList);
 
 /// Sort a file list (uses the file name for sorting)
 void SortFileList(PCH_FileList *theList);
+
+/// Remove the file with the given name, if it exists
+void RemoveFile(PCH_FileList *theList, char *fileToRemove);
 
 /// Get the description of the file as a C-string and stuff it into the provided buffer. If bufferSize is -1, the program assumes that descBuffer has been allocated with MAX_FILE_DESCRIPTION_LENGTH.
 void FileDescription(PCH_File theFile, char *descBuffer, int bufferSize);

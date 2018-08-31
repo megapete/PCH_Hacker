@@ -51,6 +51,10 @@ PCH_List CreateListWithDataArray(void *dataArray, uint numDataElements, size_t d
         {
             newList.currentHead = newNode;
         }
+        else
+        {
+            newNode->prev->next = newNode;
+        }
     }
     
     return newList;

@@ -17,6 +17,12 @@ PCH_FileList CreateFileList(void)
     return CreateList(sizeof(PCH_File));
 }
 
+/// Create a file list using the given array
+PCH_FileList CreateFileListWithArray(PCH_File *fileArray, int numFiles)
+{
+    return CreateListWithDataArray(fileArray, numFiles, sizeof(PCH_File));
+}
+
 /// Add a new file to the list
 void AppendFile(PCH_FileList *theList, PCH_File file)
 {
@@ -44,6 +50,28 @@ int FileComparisonFunction(const void *f1, const void *f2)
     return strcmp(file1->name, file2->name);
 }
 
+/// Remove the file with the given name, if it exists. It is assumed that only one copy of the file exists.
+void RemoveFile(PCH_FileList *theList, char *fileToRemove)
+{
+    int index = 0;
+    
+    PCH_ListNode *nextNode = theList->currentHead;
+    
+    while (nextNode != NULL)
+    {
+        PCH_File *nextFile = nextNode->data;
+        
+        if (strcmp(nextFile->name, fileToRemove) == 0)
+        {
+            RemoveDataAt(theList, index);
+            return;
+        }
+        
+        index += 1;
+        nextNode = nextNode->next;
+    }
+}
+
 /// Get the description of the file as a C-string and stuff it into the provided buffer. If bufferSize is -1, the program assumes that descBuffer has been allocated with MAX_FILE_DESCRIPTION_LENGTH.
 void FileDescription(PCH_File theFile, char *descBuffer, int bufferSize)
 {
@@ -54,25 +82,25 @@ void FileDescription(PCH_File theFile, char *descBuffer, int bufferSize)
     }
     
     char sizeUnits[6] = "Bytes";
-    long useSize = theFile.fileSize;
+    float useSize = theFile.fileSize;
     
-    if (theFile.fileSize > 1073741824)
+    if (theFile.fileSize > 10737418240)
     {
-        useSize /= 1073741824;
+        useSize /= 1073741824.0;
         strcpy(sizeUnits, "GB");
     }
     else if (theFile.fileSize > 1048576)
     {
-        useSize /= 1048576;
+        useSize /= 1048576.0;
         strcpy(sizeUnits, "MB");
     }
     else if (theFile.fileSize > 1024)
     {
-        useSize /= 1024;
+        useSize /= 1024.0;
         strcpy(sizeUnits, "kB");
     }
     
-    snprintf(descBuffer, useBuffSize, "%-*s %ld %s", MAX_FILE_NAME_LENGTH, theFile.name, useSize, sizeUnits);
+    snprintf(descBuffer, useBuffSize, "%-*s %8.3g %s", MAX_FILE_NAME_LENGTH, theFile.name, useSize, sizeUnits);
     
     // force the final byte to NULL
     descBuffer[useBuffSize] = '0';
