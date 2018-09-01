@@ -179,6 +179,7 @@ void SetDataAt(PCH_List *theListPtr, void *newData, uint index)
     
     while (theNode != NULL && nodeIndex < index)
     {
+        nodeIndex += 1;
         theNode = theNode->next;
     }
     
@@ -365,7 +366,7 @@ void *ListAsArray(PCH_List *theListPtr, int *numElements)
 /// Sort the list using the given comparison function. The comparison function return value is the same as required by the qsort() library function, namely: "a then b" returns -1; "a == b" returns 0; "b then a" returns +1
 void SortList(PCH_List *theListPtr, int (*compareFunction)(const void *a,const void *b))
 {
-    // Don't bother going through with the sort if there are zero or one elements in it
+    // Don't bother going through with the sort if there are zero or one element in it
     if (theListPtr->numNodes < 2)
     {
         DLog("Less than 2 elements in the list - ignoring call to 'sort'");

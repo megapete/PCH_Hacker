@@ -29,6 +29,18 @@ void AppendFile(PCH_FileList *theList, PCH_File file)
     AppendNewData(theList, &file);
 }
 
+/// Insert a file into the list at the given index
+void InsertFileAtIndex(PCH_FileList *theList, PCH_File newFile, int index)
+{
+    InsertNewDataAt(theList, &newFile, index);
+}
+
+/// Set the file at the given index, deleting whatever was there
+void SetFileAtIndex(PCH_FileList *theList, PCH_File newFile, int index)
+{
+    SetDataAt(theList, &newFile, index);
+}
+
 /// Destroy and free all memory associated with a file list. This should be called before a file list goes out of scope or is no longer needed.
 void DestroyFileList(PCH_FileList *theList)
 {
@@ -70,6 +82,27 @@ void RemoveFile(PCH_FileList *theList, char *fileToRemove)
         index += 1;
         nextNode = nextNode->next;
     }
+}
+
+/// Remove the file at index from the list, and return it
+PCH_File RemoveFileAtIndex(PCH_FileList *theList, int index)
+{
+    PCH_File fileToReturn;
+    
+    fileToReturn.data[0] = '\0';
+    fileToReturn.fileSize = 0;
+    fileToReturn.name[0] = '\0';
+    
+    PCH_File *filePtr = ListDataAt(theList, index);
+    
+    if (filePtr != NULL)
+    {
+        fileToReturn = *filePtr;
+        
+        RemoveDataAt(theList, index);
+    }
+    
+    return fileToReturn;
 }
 
 /// Get the description of the file as a C-string and stuff it into the provided buffer. If bufferSize is -1, the program assumes that descBuffer has been allocated with MAX_FILE_DESCRIPTION_LENGTH.

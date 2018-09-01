@@ -57,7 +57,7 @@ void AppendNewData(PCH_List *theListPtr, void *newTailData);
 /// Append listToAppend to the end of destList. It is up to the calling routine to make sure that destList is not equal to listToAppend
 void AppendNewList(PCH_List *theListPtr, PCH_List *listToAppendPtr);
 
-/// Insert new data at the index indicated (this routine can be slow in a large list)
+/// Insert new data at the index indicated (this routine can be slow in a large list). If index is beyond the end of the list, the new data is appended to the end of the list.
 void InsertNewDataAt(PCH_List *theListPtr, void *newData, uint index);
 
 /// Set the data at the index indicated. Whatever was there will be deleted. If index is greater than the size of the list, nothing is set.
