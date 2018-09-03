@@ -46,8 +46,8 @@ void DestroyPortList(PCH_PortList *theList);
 /// Sort a port list (uses the port number for sorting)
 void SortPortList(PCH_PortList *theList);
 
-/// Get the description of the port as a C-string and stuff it into the provided buffer
-void PortDescription(PCH_Port thePort, char *descBuffer, int bufferSize);
+/// Get the description of the port as a C-string and stuff it into the provided buffer. Pass -1 for the bufferSize to use MAX_PORT_DESCRIPTION_LENGTH as the buffer size (assumes that the calling routine has allocated that much space).
+void GetPortDescription(PCH_Port thePort, char *descBuffer, int bufferSize);
 
 
 

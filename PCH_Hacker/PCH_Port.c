@@ -46,7 +46,7 @@ int PortComparisonFunction(const void *p1, const void *p2)
 }
 
 /// Get the description of the port as a C-string and stuff it into the provided buffer. Pass -1 for the bufferSize to use MAX_PORT_DESCRIPTION_LENGTH as the buffer size (assumes that the calling routine has allocated that much space).
-void PortDescription(PCH_Port thePort, char *descBuffer, int bufferSize)
+void GetPortDescription(PCH_Port thePort, char *descBuffer, int bufferSize)
 {
     int useSize = MAX_PORT_DESCRIPTION_LENGTH - 1;
     if (bufferSize > 0)
@@ -60,7 +60,7 @@ void PortDescription(PCH_Port thePort, char *descBuffer, int bufferSize)
     
     if (thePort.status == portClosed)
     {
-        snprintf(statusString, 255, "CLOSED (Password length: %s", passwdLength);
+        snprintf(statusString, 255, "CLOSED (Password length: %s)", passwdLength);
     }
     else if (thePort.status == portOpenReadOnly)
     {
@@ -75,7 +75,7 @@ void PortDescription(PCH_Port thePort, char *descBuffer, int bufferSize)
         snprintf(statusString, 255, "OPEN for READ/WRITE");
     }
     
-    snprintf(descBuffer, useSize - 1, "%5d  %s  %s", thePort.number, statusString, thePort.name);
+    snprintf(descBuffer, useSize - 1, "%5d  %s  Port Name: %s", thePort.number, statusString, thePort.name);
     
     // force the final byte to NULL
     descBuffer[useSize] = '0';

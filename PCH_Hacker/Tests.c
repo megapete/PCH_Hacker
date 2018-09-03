@@ -20,6 +20,7 @@
 #include <string.h>
 
 void PrintFileList(PCH_FileList *theList);
+void PrintDnsTable(PCH_dnsTable *theTable);
 
 void RunTests(void)
 {
@@ -191,6 +192,83 @@ void RunTests(void)
     
     PrintFileList(&fileList);
     
+    int addr1[4] = {128,128,2,34};
+    int addr2[4] = {10,10,0.9};
+    int addr3[4] = {67,228,128,17};
+    int addr4[4] = {256,10,99,100};
+    
+    char site1[] = "site1.sympatico.ca";
+    char site2[] = "site2.apple.com";
+    char site3[] = "site3.google.ca";
+    char site4[] = "site4.microsoft.com";
+    
+    int *addresses[4] = {addr1, addr2, addr3, addr4};
+    char *siteNames[4] = {site1, site2, site3, site4};
+    
+    PCH_dnsTable table = CreateDnsTable();
+    
+    for (int i=0; i<4; i++)
+    {
+        PCH_dnsEntry entry;
+        
+        memcpy(entry.address, addresses[i], 4 * sizeof(int));
+        strncpy(entry.siteName, siteNames[i], MAX_DNS_NAME_LENGTH);
+        
+        AppendDnsEntry(&table, entry);
+    }
+    
+    PrintDnsTable(&table);
+    
+    int luAddr[4];
+    if (LookupDnsName(&table, "site3.google.com", luAddr))
+    {
+        fprintf(stderr, "\n\nGot address: %d.%d.%d.%d", luAddr[0], luAddr[1], luAddr[2], luAddr[3]);
+    }
+    else
+    {
+        fprintf(stderr, "\n\nCould not find address");
+    }
+    
+    char siteBuffer[MAX_DNS_NAME_LENGTH];
+    
+    if (ScanForSiteName(&table, "site2", siteBuffer, -1))
+    {
+        fprintf(stderr, "\n\nFound site: %s", siteBuffer);
+    }
+    
+    PCH_Port testPort;
+    strncpy(testPort.name, "HTTP", MAX_PORT_NAME_LENGTH);
+    testPort.number = 80;
+    strncpy(testPort.password, "123456", MAX_PORT_PASSWORD_LENGTH);
+    testPort.status = portClosed;
+    
+    PCH_Directory rootDirectory;
+    PCH_DirectoryList children = CreateDirectoryList(); // new, empty list
+    rootDirectory.childDirectories = children;
+    rootDirectory.parent = NULL; // root directory
+    rootDirectory.files = fileList;
+    strncpy(rootDirectory.name, "My Documents", MAX_FILE_NAME_LENGTH);
+    
+    testPort.root = rootDirectory;
+    
+    char portDescBuffer[MAX_PORT_DESCRIPTION_LENGTH];
+    
+    GetPortDescription(testPort, portDescBuffer, -1);
+    
+    fprintf(stderr, "\n\nPort: %s", portDescBuffer);
+}
+
+void PrintDnsTable(PCH_dnsTable *theTable)
+{
+    PCH_ListNode *nextDnsEntry = theTable->currentHead;
+    
+    while (nextDnsEntry != NULL)
+    {
+        PCH_dnsEntry *nextEntryPtr = nextDnsEntry->data;
+        fprintf(stderr, "\n%d.%d.%d.%d  :  %s", nextEntryPtr->address[0], nextEntryPtr->address[1], nextEntryPtr->address[2], nextEntryPtr->address[3], nextEntryPtr->siteName);
+        
+        nextDnsEntry = nextDnsEntry->next;
+    }
 }
 
 void PrintFileList(PCH_FileList *theList)
