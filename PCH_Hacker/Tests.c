@@ -20,7 +20,7 @@
 #include <string.h>
 
 void PrintFileList(PCH_FileList *theList);
-void PrintDnsTable(PCH_dnsTable *theTable);
+void PrintDnsTable(PCH_DnsTable *theTable);
 
 void RunTests(void)
 {
@@ -205,11 +205,11 @@ void RunTests(void)
     int *addresses[4] = {addr1, addr2, addr3, addr4};
     char *siteNames[4] = {site1, site2, site3, site4};
     
-    PCH_dnsTable table = CreateDnsTable();
+    PCH_DnsTable table = CreateDnsTable();
     
     for (int i=0; i<4; i++)
     {
-        PCH_dnsEntry entry;
+        PCH_DnsEntry entry;
         
         memcpy(entry.address, addresses[i], 4 * sizeof(int));
         strncpy(entry.siteName, siteNames[i], MAX_DNS_NAME_LENGTH);
@@ -258,13 +258,13 @@ void RunTests(void)
     fprintf(stderr, "\n\nPort: %s", portDescBuffer);
 }
 
-void PrintDnsTable(PCH_dnsTable *theTable)
+void PrintDnsTable(PCH_DnsTable *theTable)
 {
     PCH_ListNode *nextDnsEntry = theTable->currentHead;
     
     while (nextDnsEntry != NULL)
     {
-        PCH_dnsEntry *nextEntryPtr = nextDnsEntry->data;
+        PCH_DnsEntry *nextEntryPtr = nextDnsEntry->data;
         fprintf(stderr, "\n%d.%d.%d.%d  :  %s", nextEntryPtr->address[0], nextEntryPtr->address[1], nextEntryPtr->address[2], nextEntryPtr->address[3], nextEntryPtr->siteName);
         
         nextDnsEntry = nextDnsEntry->next;
