@@ -9,7 +9,10 @@
 #include "PCH_File.h"
 #include <string.h>
 
+// function used by the sort routine
 int FileComparisonFunction(const void *f1, const void *f2);
+
+
 
 /// Create a new, empty file list
 PCH_FileList CreateFileList(void)
@@ -138,3 +141,7 @@ void FileDescription(PCH_File theFile, char *descBuffer, int bufferSize)
     // force the final byte to NULL
     descBuffer[useBuffSize] = '0';
 }
+
+
+
+

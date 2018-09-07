@@ -17,18 +17,25 @@
 #define MAX_FILE_DESCRIPTION_LENGTH 128
 #define MAX_FILE_LENGTH 1024
 
-
 typedef PCH_List PCH_FileList;
 
 typedef struct _file {
     
+    // the shell-callable name of the file
     char name[MAX_FILE_NAME_LENGTH];
     
-    bool isExecutable;
-    int exploitPortNum; // use -1 for non-exploits, otherwise the port number that it can be executed on
-    
+    // the length of the file in bytes (does not need to be the actual length - this is used for display/memory purposes only)
     long fileSize;
     
+    // files are either executable or not. If executable, the execFuncPtr field must be set and data[] should be filled with hexadecimal gibberish. Otherwise, data[] can be filled in with readable text.
+    bool isExecutable;
+    
+    int exploitPortNum; // use -1 for non-exploits, otherwise the port number that it can be executed on.
+    
+    // The function pointer for exectuable files. The inData and outData fields can point to anything the function needs or returns. If the call succeeds (or we don't care), return TRUE, otherwise FALSE (debugging aid).
+    bool (* execFuncPtr)(void *inData, void *outData);
+    
+    // The data associated with the file. The length of this field does not need to match the fileSize field
     char data[MAX_FILE_LENGTH];
     
 } PCH_File;
@@ -62,5 +69,7 @@ PCH_File RemoveFileAtIndex(PCH_FileList *theList, int index);
 
 /// Get the description of the file as a C-string and stuff it into the provided buffer. If bufferSize is -1, the program assumes that descBuffer has been allocated with MAX_FILE_DESCRIPTION_LENGTH.
 void FileDescription(PCH_File theFile, char *descBuffer, int bufferSize);
+
+
 
 #endif /* PCH_File_h */
