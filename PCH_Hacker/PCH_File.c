@@ -142,6 +142,24 @@ void FileDescription(PCH_File theFile, char *descBuffer, int bufferSize)
     descBuffer[useBuffSize] = '0';
 }
 
+void CreateGibberishText(bool hexOnly, char *buffer, size_t bufferSize)
+{
+    char charSet[] = "!@#$&?<>[]0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    
+    if (hexOnly)
+    {
+        strcpy(charSet, "0123456789ABCDEF");
+    }
+    
+    uint32_t upperBound = (uint32_t)strlen(charSet);
+    
+    for (int i=0; i<bufferSize-1; i++)
+    {
+        buffer[i] = charSet[arc4random_uniform(upperBound)];
+    }
+    
+    buffer[bufferSize-1] = '\0';
+}
 
 
 

@@ -255,7 +255,16 @@ void RunTests(void)
     
     GetPortDescription(testPort, portDescBuffer, -1);
     
-    fprintf(stderr, "\n\nPort: %s", portDescBuffer);
+    fprintf(stderr, "\n\nPort: %s\n", portDescBuffer);
+    
+    char testBuff[128];
+    CreateGibberishText(false, testBuff, 128);
+    fprintf(stderr, "\nGibberish (all characters):%s", testBuff);
+    
+    CreateGibberishText(true, testBuff, 128);
+    fprintf(stderr, "\nGibberish (hex characters):%s\n\n", testBuff);
+    
+    ILog("This is an ILog with integer: %d", 987);
 }
 
 void PrintDnsTable(PCH_DnsTable *theTable)
