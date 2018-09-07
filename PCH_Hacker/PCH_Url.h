@@ -10,6 +10,7 @@
 #define PCH_Url_h
 
 #include <stdio.h>
+#include <stdbool.h>
 #include "PCH_Port.h"
 
 #define MAX_URL_NAME_LENGTH 32
@@ -25,10 +26,26 @@ typedef struct _location {
     
 } PCH_UrlPhysicalLocation;
 
+typedef PCH_List PCH_UrlList;
+
 typedef struct _url {
     
     int address[4]; // standard ipV4 adress fields
     char httpName[MAX_HTTP_NAME_LENGTH];
+    
+    int encryptionBits; // use -1 for "no encryption"
+    bool encryptionIsInEffect;
+    
+    struct _url *proxy; // use NULL for "no proxy"
+    bool proxyIsInEffect;
+    
+    bool hasFirewall;
+    bool firewallIsInEffect;
+    
+    int traceTime; // Time in seconds that it takes this site to carry out a single TraceHack() call. Upper-level routines should set a timer using this value to simulate the trace time.
+    
+    PCH_UrlList incomingURLs;
+    PCH_UrlList outgoingURLs;
     
     char name[MAX_URL_NAME_LENGTH];
     
@@ -38,7 +55,6 @@ typedef struct _url {
     
 } PCH_Url;
 
-typedef PCH_List PCH_UrlList;
 
 /// Create a new, empty URL list
 PCH_UrlList CreateUrlList(void);

@@ -10,6 +10,7 @@
 #define PCH_File_h
 
 #include <stdio.h>
+#include <stdbool.h>
 #include "PCH_List.h"
 
 #define MAX_FILE_NAME_LENGTH 32
@@ -22,6 +23,9 @@ typedef PCH_List PCH_FileList;
 typedef struct _file {
     
     char name[MAX_FILE_NAME_LENGTH];
+    
+    bool isExecutable;
+    int exploitPortNum; // use -1 for non-exploits, otherwise the port number that it can be executed on
     
     long fileSize;
     
